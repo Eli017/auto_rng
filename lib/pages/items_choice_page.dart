@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'duration_choice_page.dart';
+import 'randomizer_page.dart';
 
 class ItemsChoicePage extends StatefulWidget {
   const ItemsChoicePage({Key? key, required this.counter}) : super(key: key);
