@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'randomizer_page.dart';
 
 class ItemsChoicePage extends StatefulWidget {
-  const ItemsChoicePage({Key? key, required this.counter}) : super(key: key);
+  const ItemsChoicePage({Key? key}) : super(key: key);
 
-  final int counter;
+  static Route route() {
+    return MaterialPageRoute(
+      builder: (_) => const ItemsChoicePage(),
+      settings: const RouteSettings(name: '/itemsChoicePage'),
+    );
+  }
+
 
   @override
   State<ItemsChoicePage> createState() => _ItemsChoicePageState();
@@ -16,16 +22,7 @@ enum ItemType {
 }
 
 class _ItemsChoicePageState extends State<ItemsChoicePage> {
-  // List<String?> items = [];
   ItemType? itemType = ItemType.number;
-
-  // List<Widget> getItems() {
-  //   List<Widget> children = [];
-  //   for (String? item in items) {
-  //     children.add(Text(item ?? "N/A"));
-  //   }
-  //   return children;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +67,6 @@ class _ItemsChoicePageState extends State<ItemsChoicePage> {
           Navigator.push(context, MaterialPageRoute(builder: (context) =>
             const RandomizerPage(items: [0, 1, 2, 3],)
           ));
-          // if (_duration == 0) {
-          //   startTimer(1);
-          // } else {
-          //   myTimer.cancel();
-          //   startTimer(_duration);
-          // }
         },
         tooltip: 'Go to duration choice page',
         child: const Icon(Icons.arrow_right),

@@ -24,6 +24,13 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
+  static Route route() {
+    return MaterialPageRoute(
+      builder: (_) => const MyHomePage(),
+      settings: const RouteSettings(name: '/homePage'),
+    );
+  }
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -54,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: FloatingActionButton(
               backgroundColor: Colors.red,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const ItemsChoicePage(counter: 10,)));
+                Navigator.of(context).push(ItemsChoicePage.route());
               },
               tooltip: 'Go to items choice page',
               child: const Icon(Icons.arrow_right),
@@ -63,13 +70,5 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
-    //   floatingActionButton: FloatingActionButton(
-    //     onPressed: () {
-    //       Navigator.push(context, MaterialPageRoute(builder: (context) => const ItemsChoicePage(counter: 10,)));
-    //     },
-    //     tooltip: 'Go to items choice page',
-    //     child: const Icon(Icons.arrow_right),
-    //   ),
-    // );
   }
 }
