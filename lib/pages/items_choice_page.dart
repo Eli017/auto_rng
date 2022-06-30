@@ -23,6 +23,49 @@ enum ItemType {
 
 class _ItemsChoicePageState extends State<ItemsChoicePage> {
   ItemType? itemType = ItemType.number;
+  int? minimumNumber = 0;
+  int? maximumNumber = 1;
+  String? numberErrorMessage;
+  bool isNextButtonEnabled = true;
+
+  //Check if minimum is lower than maximum and vice versa.
+  void validateNumbers () {
+    if (minimumNumber == null || maximumNumber == null) {
+      setState(() => {
+        numberErrorMessage = 'Your numbers are not valid',
+        isNextButtonEnabled = false
+      });
+    } else {
+      if (minimumNumber! > maximumNumber!) {
+        setState(() => {
+          numberErrorMessage = 'Please set minimum number to be lower than the maximum',
+          isNextButtonEnabled = false
+        });
+      } else if (minimumNumber == maximumNumber) {
+        setState(() => {
+          numberErrorMessage = 'Please have these be different numbers',
+          isNextButtonEnabled = false
+        });
+      }
+      else {
+        setState(() => {
+          numberErrorMessage = null,
+          isNextButtonEnabled = true
+        });
+      }
+    }
+  }
+
+  List<int> generateNumberList() {
+    List<int> numbers = [];
+    if (maximumNumber == null) {
+      return numbers;
+    }
+    for (var i = minimumNumber; i! <= maximumNumber!; i++) {
+      numbers.add(i);
+    }
+    return numbers;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +75,15 @@ class _ItemsChoicePageState extends State<ItemsChoicePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height/3.5),
             ListTile(
               title: const Text('Numbers'),
               leading: Radio<ItemType>(
                 value: ItemType.number,
                 groupValue: itemType,
                 onChanged: (ItemType? value) {
-                  setState(() {
-                    itemType = value;
-                  });
+                  setState(() => itemType = value);
                 },
               ),
             ),
@@ -52,10 +93,64 @@ class _ItemsChoicePageState extends State<ItemsChoicePage> {
                 value: ItemType.custom,
                 groupValue: itemType,
                 onChanged: (ItemType? value) {
-                  setState(() {
-                    itemType = value;
-                  });
+                  setState(() => itemType = value);
                 },
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Spacer(
+                  flex: 1,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Visibility(
+                    visible: (itemType == ItemType.number),
+                    child: TextFormField(
+                      decoration: const InputDecoration(labelText: 'Minimum'),
+                      keyboardType: TextInputType.number,
+                      initialValue: minimumNumber.toString(),
+                      onChanged: (value) {
+                        setState(() => minimumNumber = int.tryParse(value) ?? 0);
+                        validateNumbers();
+                      },
+                    ),
+                  ),
+                ),
+                const Spacer(
+                  flex: 1,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Visibility(
+                    visible: (itemType == ItemType.number),
+                    child: TextFormField(
+                      decoration: const InputDecoration(labelText: 'Maximum'),
+                      keyboardType: TextInputType.number,
+                      initialValue: maximumNumber.toString(),
+                      onChanged: (value) {
+                        setState(() => maximumNumber = int.tryParse(value) ?? 1);
+                        validateNumbers();
+                      },
+                    ),
+                  ),
+                ),
+                const Spacer(
+                  flex: 1,
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Visibility(
+                visible: (numberErrorMessage != null && itemType == ItemType.number) ? true : false,
+                child: Text(
+                  numberErrorMessage ?? '',
+                  style: const TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
               ),
             ),
           ],
@@ -63,13 +158,16 @@ class _ItemsChoicePageState extends State<ItemsChoicePage> {
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'durationButton',
-        onPressed: () {
+        onPressed: isNextButtonEnabled ? () {
           Navigator.push(context, MaterialPageRoute(builder: (context) =>
-            const RandomizerPage(items: [0, 1, 2, 3],)
+            RandomizerPage(items: generateNumberList(),)
           ));
-        },
+        } : null,
+        backgroundColor: isNextButtonEnabled ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
         tooltip: 'Go to duration choice page',
-        child: const Icon(Icons.arrow_right),
+        child: const Icon(
+          Icons.arrow_right,
+        ),
       ),
     );
   }

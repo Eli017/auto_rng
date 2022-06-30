@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Randomizer extends StatefulWidget {
@@ -17,12 +17,13 @@ class Randomizer extends StatefulWidget {
 class _RandomizerState extends State<Randomizer> {
   int counter = 0;
   late Timer myTimer;
+  int selectedNumber = 0;
+  final Random rng = Random();
 
   void startTimer(int duration) {
     myTimer = Timer.periodic(Duration(seconds: duration), (timer) {
-      setState(() {
-        counter++;
-      });
+      final List numbers = [0, 1, 2, 3, 4, 5];
+      setState(() => selectedNumber = numbers[rng.nextInt(numbers.length)]);
     });
   }
 
@@ -46,7 +47,7 @@ class _RandomizerState extends State<Randomizer> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(counter.toString()),
+        Text(selectedNumber.toString()),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(

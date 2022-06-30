@@ -1,6 +1,5 @@
 import 'package:auto_rng/pages/items_choice_page.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 void main() {
   runApp(const MyApp());

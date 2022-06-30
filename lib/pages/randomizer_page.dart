@@ -21,7 +21,6 @@ class _RandomizerPageState extends State<RandomizerPage> {
 
   void updateDuration(int duration) {
     setState(() => millisecondDuration = duration);
-    print(millisecondDuration);
   }
 
   @override
