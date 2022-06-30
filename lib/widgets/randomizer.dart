@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 
 class Randomizer extends StatefulWidget {
   final Function(bool) toggleRandomizer;
+  final int milliseconds;
   final List items;
 
   const Randomizer({
     Key? key,
     required this.toggleRandomizer,
+    required this.milliseconds,
     required this.items
   }): super(key: key);
 
@@ -23,7 +25,7 @@ class _RandomizerState extends State<Randomizer> {
   final Random rng = Random();
 
   void startTimer(int duration) {
-    myTimer = Timer.periodic(Duration(seconds: duration), (timer) {
+    myTimer = Timer.periodic(Duration(milliseconds: duration), (timer) {
       setState(() => selectedNumber = widget.items[rng.nextInt(widget.items.length)]);
     });
   }
@@ -40,7 +42,7 @@ class _RandomizerState extends State<Randomizer> {
 
   @override
   void initState() {
-    startTimer(3);
+    startTimer(widget.milliseconds);
     super.initState();
   }
 

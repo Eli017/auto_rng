@@ -40,7 +40,7 @@ class _RandomizerPageState extends State<RandomizerPage> {
             ),
             Visibility(
                 visible: isRandomizerActive,
-                child: Randomizer(toggleRandomizer: toggleRandomizer, items: widget.items)
+                child: Randomizer(toggleRandomizer: toggleRandomizer, milliseconds: millisecondDuration, items: widget.items)
             ),
           ],
         ),
