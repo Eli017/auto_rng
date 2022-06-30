@@ -17,11 +17,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: themeData.primaryColor,
       ),
       child: Stack(
         alignment: Alignment.center,
@@ -32,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Text(
                   'List Mix',
-                  style: Theme.of(context).textTheme.headline1?.copyWith(
+                  style: themeData.textTheme.headline1?.copyWith(
                     color: Colors.white,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -47,23 +49,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     child: Text('Let\'s get started!',
                       style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: themeData.primaryColor,
                       ),
                     )
                 ),
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 40,
-            right: 20,
-            child: FloatingActionButton(
-              backgroundColor: Colors.red,
-              onPressed: () {
-                Navigator.of(context).push(ItemsChoicePage.route());
-              },
-              tooltip: 'Go to items choice page',
-              child: const Icon(Icons.arrow_right),
             ),
           ),
         ],
