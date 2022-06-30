@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 class Randomizer extends StatefulWidget {
   final Function(bool) toggleRandomizer;
+  final List items;
 
   const Randomizer({
     Key? key,
     required this.toggleRandomizer,
+    required this.items
   }): super(key: key);
 
   @override
@@ -22,8 +24,7 @@ class _RandomizerState extends State<Randomizer> {
 
   void startTimer(int duration) {
     myTimer = Timer.periodic(Duration(seconds: duration), (timer) {
-      final List numbers = [0, 1, 2, 3, 4, 5];
-      setState(() => selectedNumber = numbers[rng.nextInt(numbers.length)]);
+      setState(() => selectedNumber = widget.items[rng.nextInt(widget.items.length)]);
     });
   }
 
