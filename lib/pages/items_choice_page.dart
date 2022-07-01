@@ -1,3 +1,4 @@
+import 'package:auto_rng/pages/custom_item_choice_page.dart';
 import 'package:flutter/material.dart';
 import 'randomizer_page.dart';
 
@@ -84,6 +85,7 @@ class _ItemsChoicePageState extends State<ItemsChoicePage> {
                 groupValue: itemType,
                 onChanged: (ItemType? value) {
                   setState(() => itemType = value);
+                  validateNumbers();
                 },
               ),
             ),
@@ -93,7 +95,10 @@ class _ItemsChoicePageState extends State<ItemsChoicePage> {
                 value: ItemType.custom,
                 groupValue: itemType,
                 onChanged: (ItemType? value) {
-                  setState(() => itemType = value);
+                  setState(() => {
+                    itemType = value,
+                    isNextButtonEnabled = true
+                  });
                 },
               ),
             ),
@@ -159,9 +164,15 @@ class _ItemsChoicePageState extends State<ItemsChoicePage> {
       floatingActionButton: FloatingActionButton(
         heroTag: 'durationButton',
         onPressed: isNextButtonEnabled ? () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) =>
-            RandomizerPage(items: generateNumberList(),)
-          ));
+          if (itemType == ItemType.number) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                RandomizerPage(items: generateNumberList(),)
+            ));
+          } else {
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                const CustomItemChoicePage()
+            ));
+          }
         } : null,
         backgroundColor: isNextButtonEnabled ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
         tooltip: 'Go to duration choice page',

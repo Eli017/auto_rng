@@ -21,12 +21,17 @@ class Randomizer extends StatefulWidget {
 class _RandomizerState extends State<Randomizer> {
   int counter = 0;
   late Timer myTimer;
-  int selectedNumber = 0;
+  String selectedItem = '';
   final Random rng = Random();
 
   void startTimer(int duration) {
     myTimer = Timer.periodic(Duration(milliseconds: duration), (timer) {
-      setState(() => selectedNumber = widget.items[rng.nextInt(widget.items.length)]);
+      var newItem = widget.items[rng.nextInt(widget.items.length)];
+      if (newItem is String) {
+        setState(() => selectedItem = newItem);
+      } else {
+        setState(() => selectedItem = newItem.toString());
+      }
     });
   }
 
@@ -50,7 +55,7 @@ class _RandomizerState extends State<Randomizer> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(selectedNumber.toString()),
+        Text(selectedItem),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(

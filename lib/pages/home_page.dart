@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'items_choice_page.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -39,19 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(ItemsChoicePage.route());
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                    ),
-                    child: Text('Let\'s get started!',
-                      style: TextStyle(
-                          color: themeData.primaryColor,
-                      ),
-                    )
                 ),
               ],
             ),
