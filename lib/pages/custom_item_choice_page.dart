@@ -17,21 +17,19 @@ class CustomItemChoicePage extends StatefulWidget {
 }
 
 class _CustomItemChoicePageState extends State<CustomItemChoicePage> {
-  final List<String> names = <String>['Aby', 'Aish', 'Ayan', 'Ben', 'Bob', 'Charlie', 'Cook', 'Carline'];
+  final List<String> items = <String>[];
   final List<int> msgCount = <int>[2, 0, 10, 6, 52, 4, 0, 2];
-  String addedItemName = '';
+  final TextEditingController nameController = TextEditingController();
 
   void addItemToList(){
     setState(() {
-      names.insert(0, addedItemName);
-      msgCount.insert(0, 0);
-      addedItemName = '';
+      items.insert(0, nameController.text);
     });
+    nameController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create List'),
@@ -45,35 +43,42 @@ class _CustomItemChoicePageState extends State<CustomItemChoicePage> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: TextField(
+                    controller: nameController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Contact Name',
+                      labelText: 'Item Name',
                     ),
-                    onChanged: (text) {
-                      setState(() => addedItemName = text);
-                    },
                   ),
                 ),
-                ElevatedButton(
-                  child: const Text('Add'),
-                  onPressed: () {
-                    addItemToList();
+                ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: nameController,
+                  builder: (context, value, child) {
+                    return ElevatedButton(
+                      onPressed: nameController.text != '' ? () {
+                        addItemToList();
+                      } : null,
+                      child: const Text('Add'),
+                    );
                   },
                 ),
                 Expanded(
                     child: ListView.builder(
                         padding: const EdgeInsets.all(8),
-                        itemCount: names.length,
+                        itemCount: items.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            height: 50,
-                            margin: const EdgeInsets.all(2),
-                            color: msgCount[index]>=10? Colors.blue[400]:
-                            msgCount[index]>3? Colors.blue[100]: Colors.grey,
-                            child: Center(
-                                child: Text('${names[index]} (${msgCount[index]})',
-                                  style: const TextStyle(fontSize: 18),
-                                )
+                          final item = items[index];
+                          return Dismissible(
+                            key: Key(item),
+                            onDismissed: (direction) {
+                              setState(() => items.removeAt(index));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(content: Text('$item dismissed')));
+                            },
+                            background: Container(color: Colors.red),
+                            child: Card(
+                              child: ListTile(
+                                title: Text(item)
+                              ),
                             ),
                           );
                         }
@@ -85,11 +90,12 @@ class _CustomItemChoicePageState extends State<CustomItemChoicePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        backgroundColor: items.isNotEmpty ? Theme.of(context).primaryColor : Colors.grey,
+        onPressed: items.isNotEmpty ? () {
           Navigator.push(context, MaterialPageRoute(builder: (context) =>
-              RandomizerPage(items: names)
+              RandomizerPage(items: items)
           ));
-        },
+        } : null,
         child: const Icon(
           Icons.arrow_right,
         ),
