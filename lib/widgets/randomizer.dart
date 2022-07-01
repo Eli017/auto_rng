@@ -53,9 +53,16 @@ class _RandomizerState extends State<Randomizer> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
     return Column(
       children: [
-        Text(selectedItem),
+        Text(
+          selectedItem,
+          style: themeData.textTheme.headline1?.copyWith(
+            fontSize: 42,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
