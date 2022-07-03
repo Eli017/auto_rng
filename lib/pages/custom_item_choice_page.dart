@@ -33,6 +33,7 @@ class _CustomItemChoicePageState extends State<CustomItemChoicePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create List'),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Stack(
         alignment: Alignment.center,

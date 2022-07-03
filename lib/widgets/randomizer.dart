@@ -61,6 +61,7 @@ class _RandomizerState extends State<Randomizer> {
           style: themeData.textTheme.headline1?.copyWith(
             fontSize: 42,
             fontWeight: FontWeight.bold,
+            color: themeData.primaryColor,
           ),
         ),
         Padding(

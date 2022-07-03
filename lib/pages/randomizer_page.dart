@@ -40,6 +40,7 @@ class _RandomizerPageState extends State<RandomizerPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Choose Your duration'),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Center(
         child: Column(

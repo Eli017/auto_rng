@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'items_choice_page.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key, required this.setTheme}) : super(key: key);
+
+  final Function setTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,9 @@ class HomePage extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(SettingsPage.route());
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                          SettingsPage(setTheme: setTheme)
+                      ));
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,

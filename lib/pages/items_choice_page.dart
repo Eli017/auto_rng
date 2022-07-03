@@ -73,6 +73,7 @@ class _ItemsChoicePageState extends State<ItemsChoicePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Choose your items'),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Center(
         child: Column(
