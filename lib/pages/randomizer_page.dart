@@ -38,12 +38,17 @@ class _RandomizerPageState extends State<RandomizerPage> {
           });
         },
         onAdFailedToLoad: (ad, err) {
-          print('Failed to load a banner ad: ${err.message}');
           ad.dispose();
         },
       ),
     ).load();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    bannerAd?.dispose();
+    super.dispose();
   }
 
   void toggleRandomizer(bool isActive) {
@@ -86,7 +91,7 @@ class _RandomizerPageState extends State<RandomizerPage> {
           ),
           if (bannerAd != null)
             Align(
-              alignment: Alignment.topCenter,
+              alignment: const Alignment(0.0, 0.9),
               child: SizedBox(
                 width: bannerAd!.size.width.toDouble(),
                 height: bannerAd!.size.height.toDouble(),
