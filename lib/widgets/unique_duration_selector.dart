@@ -99,6 +99,7 @@ class _UniqueDurationSelectorState extends State<UniqueDurationSelector>  {
           child: ElevatedButton(
               onPressed: isEnabled ? () {
                 widget.toggleRandomizer(true);
+                FocusManager.instance.primaryFocus?.unfocus();
               } : null,
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(100, 100),
