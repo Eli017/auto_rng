@@ -37,6 +37,7 @@ class _MyAppState extends State<MyApp> {
       theme: Themes.light,
       darkTheme: Themes.dark,
       themeMode: themeChoice,
+      debugShowCheckedModeBanner: false,
       home: HomePage(setTheme: setThemeState),
     );
   }
