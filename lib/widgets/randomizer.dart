@@ -19,13 +19,26 @@ class Randomizer extends StatefulWidget {
 }
 
 class _RandomizerState extends State<Randomizer> {
-  int counter = 0;
   late Timer myTimer;
+  late Timer countdownTimer;
+  int currentDuration = 0;
+  int currentCountdown = 0;
   String selectedItem = '';
   final Random rng = Random();
 
+  void startCountdownTimer() {
+    countdownTimer = Timer.periodic(const Duration(milliseconds: 1), (timer) {
+      if (currentCountdown == 0) {
+        setState(() => currentCountdown = currentDuration);
+      } else {
+        setState(() => currentCountdown--);
+      }
+    });
+  }
+
   void startTimer(int duration) {
     myTimer = Timer.periodic(Duration(milliseconds: duration), (timer) {
+      setState(() => currentCountdown = duration);
       var newItem = widget.items[rng.nextInt(widget.items.length)];
       if (newItem is String) {
         setState(() => selectedItem = newItem);
@@ -37,6 +50,7 @@ class _RandomizerState extends State<Randomizer> {
 
   void stopTimer() {
     myTimer.cancel();
+    countdownTimer.cancel();
   }
 
   @override
@@ -47,7 +61,10 @@ class _RandomizerState extends State<Randomizer> {
 
   @override
   void initState() {
+    currentDuration = widget.milliseconds;
+    currentCountdown = widget.milliseconds;
     startTimer(widget.milliseconds);
+    startCountdownTimer();
     super.initState();
   }
 
@@ -62,6 +79,13 @@ class _RandomizerState extends State<Randomizer> {
             fontSize: 42,
             fontWeight: FontWeight.bold,
             color: themeData.primaryColor,
+          ),
+        ),
+        Text(
+          Duration(milliseconds: currentCountdown).toString().substring(0, 11),
+          style: themeData.textTheme.headline1?.copyWith(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
           ),
         ),
         Padding(
