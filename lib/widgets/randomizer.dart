@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Randomizer extends StatefulWidget {
   final Function(bool) toggleRandomizer;
@@ -25,6 +26,7 @@ class _RandomizerState extends State<Randomizer> {
   int currentCountdown = 0;
   String selectedItem = '';
   final Random rng = Random();
+  final _channel = const MethodChannel('com.listMix.elisokeland');
 
   void startCountdownTimer() {
     countdownTimer = Timer.periodic(const Duration(milliseconds: 1), (timer) {
@@ -81,6 +83,17 @@ class _RandomizerState extends State<Randomizer> {
             color: themeData.primaryColor,
           ),
         ),
+        TextButton(
+            child: const Text("Start LiveActivity"),
+            onPressed: () async {
+              try {
+                await _channel.invokeMethod('startLiveActivity', {
+                  'duration': currentDuration.toString()
+                });
+              } on PlatformException catch (e) {
+                debugPrint("==== PlatformException '${e.message}' ====");
+              }
+            }),
         Text(
           Duration(milliseconds: currentCountdown).toString().substring(0, 11),
           style: themeData.textTheme.headline1?.copyWith(
