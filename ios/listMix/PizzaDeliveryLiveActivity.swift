@@ -29,21 +29,6 @@ struct PizzaDeliveryActivityWidget: Widget {
                     }
                     .font(.title2)
                 }
-                
-                DynamicIslandExpandedRegion(.center) {
-                    Text("\(context.state.driverName) is on their way!")
-                        .lineLimit(1)
-                        .font(.caption)
-                }
-                
-                DynamicIslandExpandedRegion(.bottom) {
-                    Button {
-                        // Deep link into your app.
-                    } label: {
-                        Label("Call driver", systemImage: "phone")
-                    }
-                    .foregroundColor(.indigo)
-                }
             } compactLeading: {
                 Label {
                     Text("\(context.attributes.totalAmount) Pizzas")

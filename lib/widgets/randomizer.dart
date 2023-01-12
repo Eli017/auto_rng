@@ -20,8 +20,6 @@ class Randomizer extends StatefulWidget {
 }
 
 class _RandomizerState extends State<Randomizer> {
-  int currentDuration = 0;
-  int currentCountdown = 0;
   String selectedItem = '';
   final Random rng = Random();
   final _channel = const MethodChannel('com.listMix.elisokeland');
@@ -52,6 +50,11 @@ class _RandomizerState extends State<Randomizer> {
   @override
   void dispose() async {
     super.dispose();
+    try {
+      await _channel.invokeMethod('stopLiveActivity');
+    } on PlatformException catch (e) {
+      debugPrint("==== PlatformException '${e.message}' ====");
+    }
     await _stopWatchTimer.dispose();
   }
 
@@ -83,27 +86,27 @@ class _RandomizerState extends State<Randomizer> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                TextButton(
+                    child: const Text("Start LiveActivity"),
+                    onPressed: () async {
+                      try {
+                        await _channel.invokeMethod('startLiveActivity', {
+                          'duration': value.toString()
+                        });
+                      } on PlatformException catch (e) {
+                        debugPrint("==== PlatformException '${e.message}' ====");
+                      }
+                    }),
+                Text(
+                  Duration(milliseconds: value ?? 0).toString().substring(0, 11),
+                  style: themeData.textTheme.headline1?.copyWith(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             );
           },
-        ),
-        TextButton(
-            child: const Text("Start LiveActivity"),
-            onPressed: () async {
-              try {
-                await _channel.invokeMethod('startLiveActivity', {
-                  'duration': currentDuration.toString()
-                });
-              } on PlatformException catch (e) {
-                debugPrint("==== PlatformException '${e.message}' ====");
-              }
-            }),
-        Text(
-          Duration(milliseconds: currentCountdown).toString().substring(0, 11),
-          style: themeData.textTheme.headline1?.copyWith(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
