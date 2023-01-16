@@ -28,9 +28,7 @@ class _DurationSelectorState extends State<DurationSelector>  {
     int secondMilliseconds = convertSecondsToMilliseconds(seconds);
     int newMilliseconds = minuteMilliseconds + secondMilliseconds + milliseconds;
     setState(() => currentDuration = newMilliseconds);
-    //Every frame within 60fps is approximately 16.3 milliseconds.
-    //Therefore, this app must have a function delay of at least 17 seconds.
-    if (currentDuration >= 17) {
+    if (currentDuration > 0) {
       setState(() => isEnabled = true);
     } else {
       setState(() => isEnabled = false);

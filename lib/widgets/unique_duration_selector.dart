@@ -27,7 +27,7 @@ class _UniqueDurationSelectorState extends State<UniqueDurationSelector>  {
     setState(() => currentDuration = newMilliseconds);
     //Every frame within 60fps is approximately 16.3 milliseconds.
     //Therefore, this app must have a function delay of at least 17 seconds.
-    if (currentDuration >= 17) {
+    if (currentDuration > 0) {
       setState(() => isEnabled = true);
     } else {
       setState(() => isEnabled = false);
