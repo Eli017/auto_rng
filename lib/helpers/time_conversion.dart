@@ -14,6 +14,9 @@ int convertMinutesToMilliseconds(int minutes) {
 }
 
 int convertTimePerDuration(int time, TimeDenominatorType denominatorType) {
+  if (time == 0) {
+    return 0;
+  }
   int denominatorInMilliseconds;
   switch (denominatorType) {
     case TimeDenominatorType.second: {

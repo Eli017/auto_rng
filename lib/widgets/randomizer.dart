@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
@@ -20,8 +19,6 @@ class Randomizer extends StatefulWidget {
 }
 
 class _RandomizerState extends State<Randomizer> {
-  late Timer myTimer;
-  late Timer countdownTimer;
   int currentDuration = 0;
   int currentCountdown = 0;
   String selectedItem = '';
